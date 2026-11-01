@@ -1,0 +1,154 @@
+' ArrayUtils algorithms, independently implemented from Joe Strout's API.
+Private Sub CheckRange(length As Integer, ByRef first As Integer, ByRef finish As Integer)
+    If first < 0 Then first = length + first
+    If finish <= 0 Then finish = length + finish
+    If first < 0 Or first > length Or finish < first Or finish > length Then
+        Throw New InvalidArgumentException("ArrayUtils range is outside the array or reversed")
+    End If
+End Sub
+
+''' Copy a half-open range; negative indices count back from the end, finish=0 means end.
+Public Extension Function Slice Of T(items As Array Of T, first As Integer, finish As Integer) As Array Of T
+    CheckRange(Array.Count(items), first, finish)
+    Dim output() As T
+    For i As Integer = first To finish - 1
+        Array.Append(output, items(i))
+    Next
+    Return output
+End Function
+
+''' Remove a half-open range. Structural mutation requires a resizable array.
+Public Extension Sub RemoveSlice Of T(items As Array Of T, first As Integer, finish As Integer)
+    CheckRange(Array.Count(items), first, finish)
+    If first = finish Then Exit Sub
+    If Not Array.IsResizable(items) Then Throw New InvalidArgumentException("RemoveSlice requires a resizable array")
+    Dim length As Integer = Array.Count(items)
+    Dim removed As Integer = finish - first
+    ' Move each survivor once, then discard trailing slots without shifting.
+    For i As Integer = finish To length - 1
+        items(i - removed) = items(i)
+    Next
+    For i As Integer = length - 1 To length - removed Step -1
+        Array.RemoveAt(items, i)
+    Next
+End Sub
+
+''' Replace a range with a snapshot of the source range; self-splicing is supported.
+Public Extension Sub Splice Of T(items As Array Of T, first As Integer, finish As Integer, source As Array Of T, sourceFirst As Integer, sourceFinish As Integer)
+    CheckRange(Array.Count(items), first, finish)
+    CheckRange(Array.Count(source), sourceFirst, sourceFinish)
+    If Not Array.IsResizable(items) Then Throw New InvalidArgumentException("Splice requires a resizable array")
+    Dim incoming As Array Of T = Slice(source, sourceFirst, sourceFinish)
+    Dim length As Integer = Array.Count(items)
+    Dim added As Integer = Array.Count(incoming)
+    Dim delta As Integer = added - (finish - first)
+    If delta > 0 Then
+        For i As Integer = 0 To delta - 1
+            Array.Append(items, incoming(i))
+        Next
+        For i As Integer = length - 1 To finish Step -1
+            items(i + delta) = items(i)
+        Next
+    ElseIf delta < 0 Then
+        For i As Integer = finish To length - 1
+            items(i + delta) = items(i)
+        Next
+        For i As Integer = length - 1 To length + delta Step -1
+            Array.RemoveAt(items, i)
+        Next
+    End If
+    For i As Integer = 0 To added - 1
+        items(first + i) = incoming(i)
+    Next
+End Sub
+
+''' Append every source element, using a snapshot so self-append terminates.
+Public Extension Sub AppendAll Of T(items As Array Of T, source As Array Of T)
+    If Not Array.IsResizable(items) Then Throw New InvalidArgumentException("AppendAll requires a resizable array")
+    Dim incoming As Array Of T = Array.Clone(source)
+    For Each item As T In incoming
+        Array.Append(items, item)
+    Next
+End Sub
+
+''' Reverse in place, including fixed arrays.
+Public Extension Sub Reverse Of T(items As Array Of T)
+    For i As Integer = 0 To (Array.Count(items) \ 2) - 1
+        Dim opposite As Integer = Array.Count(items) - i - 1
+        Dim saved As T = items(i)
+        items(i) = items(opposite)
+        items(opposite) = saved
+    Next
+End Sub
+
+Public Extension Function Total(items As Array Of Integer) As Integer
+    Dim output As Integer = 0
+    For Each item As Integer In items
+        output += item
+    Next
+    Return output
+End Function
+
+Public Extension Function Average(items As Array Of Integer) As Double
+    If Array.Count(items) = 0 Then Return 0.0
+    Dim output As Double = 0.0
+    For Each item As Integer In items
+        output += item
+    Next
+    Return output / Array.Count(items)
+End Function
+
+Public Extension Function Min(items As Array Of Integer) As Integer
+    If Array.Count(items) = 0 Then Return 0
+    Dim output As Integer = items(0)
+    For i As Integer = 1 To Array.Count(items) - 1
+        If items(i) < output Then output = items(i)
+    Next
+    Return output
+End Function
+
+Public Extension Function Max(items As Array Of Integer) As Integer
+    If Array.Count(items) = 0 Then Return 0
+    Dim output As Integer = items(0)
+    For i As Integer = 1 To Array.Count(items) - 1
+        If items(i) > output Then output = items(i)
+    Next
+    Return output
+End Function
+
+
+Public Extension Function Total(items As Array Of Double) As Double
+    Dim output As Double = 0
+    For Each item As Double In items
+        output += item
+    Next
+    Return output
+End Function
+
+Public Extension Function Average(items As Array Of Double) As Double
+    If Array.Count(items) = 0 Then Return 0.0
+    Dim output As Double = 0.0
+    For Each item As Double In items
+        output += item
+    Next
+    Return output / Array.Count(items)
+End Function
+
+Public Extension Function Min(items As Array Of Double) As Double
+    If Array.Count(items) = 0 Then Return 0
+    Dim output As Double = items(0)
+    For i As Integer = 1 To Array.Count(items) - 1
+        If items(i) < output Then output = items(i)
+    Next
+    Return output
+End Function
+
+Public Extension Function Max(items As Array Of Double) As Double
+    If Array.Count(items) = 0 Then Return 0
+    Dim output As Double = items(0)
+    For i As Integer = 1 To Array.Count(items) - 1
+        If items(i) > output Then output = items(i)
+    Next
+    Return output
+End Function
+
