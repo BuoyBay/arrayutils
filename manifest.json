@@ -1,1 +1,1 @@
-{"schema":1,"name":"arrayutils","version":"0.1.0","description":"Generic signed-range array editing and numeric reductions inspired by Joe Strout's ArrayUtils"}
+{"schema":1,"name":"arrayutils","version":"0.1.0","description":"Edit arrays and compute numeric reductions"}
