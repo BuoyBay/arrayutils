@@ -1,4 +1,4 @@
-# Edit arrays and compute numeric reductions
+# Generic array edits and numeric reductions
 
 Array range editing and numeric reductions inspired by [Joe Strout's
 REALbasic ArrayUtils](https://strout.net/info/coding/rb/intro.html). Source and
