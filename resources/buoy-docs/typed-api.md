@@ -13,8 +13,6 @@ related: ["api.md", "getting-started.md", "index.md"]
 
 Generated from the package source declarations. Platform guards are shown where present; inherited members are documented on the base type. See the [API contracts](api.md) for behavior and limitations.
 
-## ArrayUtils functions
-
 ### Slice
 
 `Public Extension Function Slice Of T(items As Array Of T, first As Integer, finish As Integer) As Array Of T`

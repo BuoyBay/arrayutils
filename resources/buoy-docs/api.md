@@ -39,5 +39,4 @@ All operations are also extensions on compatible arrays. The package neither cha
 
 See the [getting-started example](getting-started.md) and [overview](index.md).
 
-
 [Full typed API: properties, parameters, defaults, and returns](typed-api.md)

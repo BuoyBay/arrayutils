@@ -49,18 +49,16 @@ compiler runtime was changed.
 
 ## Use with bpm
 
-The directory has compiler `manifest.json` and dependency-free `bpm.json`. From a
-consumer project, use `bpm add arrayutils --path /absolute/path/to/libraries/arrayutils`
-then `bpm install`. For the sealed distribution, copy
-`packages/arrayutils-0.1.0.buipkg` into the consumer's `packages/` directory.
-See the runnable example (not included in this repository).
+From a consumer project, use the source checkout as an explicit local dependency:
 
-## Verify
+```sh
+bpm add arrayutils --path /absolute/path/to/arrayutils
+```
 
-Maintainers run the private validation suite before release. See the repository README for public build instructions.
+BPM resolves the package and installs the resulting archive in the consumer's
+`packages/` directory. The source has no other package dependencies.
 
-Linux x86_64 execution passed on Buoy 0.72.0. All three Buoy files also pass
-compiler checks for Linux, macOS and Windows on x86_64 and ARM64, with empty
-errors and warnings. Other operating systems have not been runtime-tested by
-this package's suite. [Provenance](../PROVENANCE.md) identifies the
-inspected original and the semantic differences.
+## Source and compatibility
+
+The [provenance notes](../PROVENANCE.md) identify the original API inspiration
+and the semantic differences of this independent implementation.

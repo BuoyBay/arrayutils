@@ -1,6 +1,6 @@
 # Edit arrays and compute numeric reductions
 
-Pure Buoy array range editing and numeric reductions inspired by [Joe Strout's
+Array range editing and numeric reductions inspired by [Joe Strout's
 REALbasic ArrayUtils](https://strout.net/info/coding/rb/intro.html). Source and
 sealed `.buipkg` consumers use `Import arrayutils`. No native dependencies.
 
@@ -17,7 +17,7 @@ consumer project for reproducible installs.
 
 ## Example
 
-```buoy
+```basic
 Import arrayutils
 
 Sub Main()
@@ -54,7 +54,6 @@ On your own machine, install Buoy and run:
 buoy ai init --both
 ```
 
-The generated agent files and editor settings stay local and are ignored by Git.
 
 ## Contributing
 

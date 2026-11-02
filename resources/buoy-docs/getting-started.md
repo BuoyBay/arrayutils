@@ -15,7 +15,7 @@ Install `arrayutils` through BPM or copy `arrayutils-0.1.0.buipkg` into the cons
 
 This complete console program calculates an average, copies the final two scores, replaces a String range, and reverses the edited array.
 
-```buoy
+```basic
 Import arrayutils
 
 Sub Main()
@@ -40,6 +40,6 @@ Operations can be called as package functions or extensions, such as `items.Tota
 
 Validate application ranges before calling, or catch `InvalidArgumentException`. Splice validates both destination and source before editing; a bad source range does not partially remove destination data. Reverse needs no resizing and accepts fixed arrays.
 
-These algorithms are platform-independent source code. Repository verification records runtime execution on Linux x86_64 and compiler checks on all six desktop targets; compiler checks alone do not establish runtime execution on the other systems.
+These algorithms are platform-independent source code. Check the changed source and exercise the affected operations on each target you deploy.
 
 Continue with [API reference](api.md), or return to [ArrayUtils](index.md).
